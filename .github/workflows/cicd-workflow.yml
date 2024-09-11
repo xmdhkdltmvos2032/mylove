@@ -19,4 +19,11 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: []
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull midzy0526/test:latest
+      - name: Delete old container
+        run: docker rm -f nodejs-app-container
+      - name: Run docker container
+        run: docker run -d -p 3000:3000 --name nodejs-app-container midzy0526/test
